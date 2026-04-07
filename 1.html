@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bhavana — Interior Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1c1714;
+    --paper: #faf7f2;
+    --warm: #d4a97a;
+    --accent: #9b6a3e;
+    --muted: #8a7d72;
+    --line: rgba(28,23,20,0.1);
+    --card-bg: #f0ebe2;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'DM Mono', monospace;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.6;
+    cursor: crosshair;
+    overflow-x: hidden;
+  }
+
+  a { color: inherit; text-decoration: none; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.5rem 3rem;
+    background: transparent;
+    transition: background 0.4s;
+  }
+  nav.scrolled { background: var(--paper); border-bottom: 1px solid var(--line); }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.1rem; font-weight: 400; letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    color: var(--muted); transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--ink); }
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 1px; background: var(--ink); display: block; transition: all 0.3s; }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-left {
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 8rem 3rem 5rem;
+    position: relative;
+  }
+  .hero-eyebrow {
+    font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 2rem;
+  }
+  .hero-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(4rem, 8vw, 7rem);
+    font-weight: 300; line-height: 0.9;
+    margin-bottom: 2.5rem;
+  }
+  .hero-name em { font-style: italic; color: var(--accent); }
+  .hero-desc {
+    max-width: 380px; color: var(--muted);
+    font-size: 12px; line-height: 1.9;
+    margin-bottom: 3rem;
+  }
+  .hero-cta {
+    display: inline-flex; align-items: center; gap: 1rem;
+    font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase;
+    border: 1px solid var(--ink); padding: 1rem 2rem;
+    transition: all 0.3s; cursor: pointer;
+  }
+  .hero-cta:hover { background: var(--ink); color: var(--paper); }
+  .hero-cta .arrow { transition: transform 0.3s; }
+  .hero-cta:hover .arrow { transform: translateX(6px); }
+
+  .hero-right {
+    background: var(--ink);
+    position: relative; overflow: hidden;
+  }
+  .hero-image-placeholder {
+    width: 100%; height: 100%;
+    background: linear-gradient(160deg, #2e2218 0%, #1c1714 60%, #100e0b 100%);
+    display: flex; align-items: center; justify-content: center;
+    flex-direction: column;
+  }
+  .hero-image-placeholder svg { opacity: 0.18; }
+  .hero-tag {
+    position: absolute; bottom: 2.5rem; left: 2rem;
+    background: var(--paper); padding: 0.8rem 1.2rem;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted);
+  }
+  .hero-scroll {
+    position: absolute; bottom: 2.5rem; left: 50%; transform: translateX(-50%);
+    writing-mode: vertical-rl; font-size: 10px; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--muted);
+    display: flex; align-items: center; gap: 1rem;
+    animation: scrollPulse 2s infinite;
+  }
+  @keyframes scrollPulse { 0%,100%{opacity:0.4} 50%{opacity:1} }
+  .hero-scroll::after {
+    content: ''; width: 1px; height: 60px; background: var(--muted); display: block;
+    animation: lineGrow 2s infinite;
+  }
+  @keyframes lineGrow { 0%{height:0} 100%{height:60px} }
+
+  /* STATS */
+  .stats {
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    padding: 0 3rem;
+  }
+  .stat {
+    padding: 2.5rem 0;
+    border-right: 1px solid var(--line);
+    text-align: center;
+  }
+  .stat:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem; font-weight: 300; color: var(--accent);
+    display: block;
+  }
+  .stat-label { font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+  /* SECTION HEADER */
+  .section-header {
+    display: flex; align-items: baseline; justify-content: space-between;
+    padding: 5rem 3rem 3rem;
+    border-bottom: 1px solid var(--line);
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 300; line-height: 1.1;
+  }
+  .section-title em { font-style: italic; color: var(--accent); }
+  .section-counter { font-size: 10px; letter-spacing: 0.2em; color: var(--muted); }
+
+  /* PROJECTS */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0;
+  }
+  .project-card {
+    position: relative; overflow: hidden;
+    cursor: pointer;
+    border-bottom: 1px solid var(--line);
+    border-right: 1px solid var(--line);
+    background: var(--card-bg);
+    transition: background 0.4s;
+  }
+  .project-card:nth-child(even) { border-right: none; }
+  .project-card:hover { background: var(--ink); }
+  .project-card:hover .project-title,
+  .project-card:hover .project-meta,
+  .project-card:hover .project-desc,
+  .project-card:hover .project-index { color: var(--paper); }
+  .project-card:hover .project-tag { background: var(--accent); color: var(--paper); }
+
+  .project-visual {
+    width: 100%; aspect-ratio: 4/3;
+    background: var(--ink);
+    position: relative; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .pv-1 { background: linear-gradient(135deg, #1c1410 0%, #2e2218 100%); }
+  .pv-2 { background: linear-gradient(135deg, #101814 0%, #182820 100%); }
+  .pv-3 { background: linear-gradient(135deg, #18101c 0%, #281428 100%); }
+  .pv-4 { background: linear-gradient(135deg, #1c140a 0%, #2e2010 100%); }
+  .pv-5 { background: linear-gradient(135deg, #0c1418 0%, #142028 100%); }
+  .pv-6 { background: linear-gradient(135deg, #1a1016 0%, #281820 100%); }
+
+  .arch-svg { opacity: 0.3; transition: opacity 0.4s; }
+  .project-card:hover .arch-svg { opacity: 0.6; }
+
+  .project-info { padding: 2rem; }
+  .project-index { font-size: 10px; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 0.8rem; transition: color 0.4s; }
+  .project-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.6rem; font-weight: 300; line-height: 1.2;
+    margin-bottom: 0.5rem; transition: color 0.4s;
+  }
+  .project-meta { font-size: 10px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 1rem; transition: color 0.4s; }
+  .project-desc { font-size: 11px; line-height: 1.8; color: var(--muted); margin-bottom: 1.5rem; transition: color 0.4s; }
+  .project-tag {
+    display: inline-block; font-size: 9px; letter-spacing: 0.2em;
+    text-transform: uppercase; padding: 0.3rem 0.8rem;
+    border: 1px solid var(--line); color: var(--muted);
+    transition: all 0.4s;
+  }
+
+  /* FEATURED PROJECT */
+  .project-card.featured {
+    grid-column: 1 / -1;
+    display: grid; grid-template-columns: 1fr 1fr;
+    border-right: none;
+  }
+  .project-card.featured .project-visual { aspect-ratio: unset; min-height: 400px; }
+  .project-card.featured .project-info { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
+  .project-card.featured .project-title { font-size: clamp(2rem, 4vw, 3rem); }
+
+  /* ABOUT */
+  .about-section {
+    display: grid; grid-template-columns: 1fr 1fr;
+    min-height: 80vh;
+    border-top: 1px solid var(--line);
+  }
+  .about-left { padding: 5rem 3rem; border-right: 1px solid var(--line); }
+  .about-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    font-weight: 300; line-height: 1; margin-bottom: 3rem;
+  }
+  .about-title em { font-style: italic; color: var(--accent); }
+  .about-body { color: var(--muted); font-size: 12px; line-height: 2; max-width: 460px; }
+  .about-body p + p { margin-top: 1.5rem; }
+  .about-services { margin-top: 3rem; }
+  .service-line {
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid var(--line); padding: 1rem 0;
+    font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase;
+  }
+  .service-line:last-child { border-bottom: 1px solid var(--line); }
+
+  .about-right {
+    padding: 5rem 3rem;
+    display: flex; flex-direction: column; justify-content: center;
+    background: var(--card-bg);
+  }
+  .awards-title { font-size: 10px; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); margin-bottom: 2rem; }
+  .award-item { padding: 1.2rem 0; border-bottom: 1px solid var(--line); }
+  .award-item:first-of-type { border-top: 1px solid var(--line); }
+  .award-year { font-size: 10px; color: var(--accent); margin-bottom: 0.3rem; }
+  .award-name { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-weight: 300; }
+  .award-body { font-size: 11px; color: var(--muted); }
+
+  /* CONTACT */
+  .contact-section {
+    background: var(--ink); color: var(--paper);
+    padding: 6rem 3rem;
+    display: grid; grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    border-top: 1px solid var(--line);
+  }
+  .contact-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    font-weight: 300; line-height: 1; margin-bottom: 2rem;
+  }
+  .contact-title em { font-style: italic; color: var(--warm); }
+  .contact-body { color: rgba(250,247,242,0.5); font-size: 12px; line-height: 1.9; }
+  .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
+  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+  .form-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(250,247,242,0.4); }
+  .form-input, .form-textarea {
+    background: transparent; border: none; border-bottom: 1px solid rgba(250,247,242,0.15);
+    color: var(--paper); font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 300;
+    padding: 0.8rem 0; outline: none; width: 100%;
+    transition: border-color 0.3s;
+  }
+  .form-input:focus, .form-textarea:focus { border-bottom-color: var(--warm); }
+  .form-textarea { resize: none; height: 100px; }
+  .form-submit {
+    align-self: flex-start; background: transparent;
+    border: 1px solid rgba(250,247,242,0.3); color: var(--paper);
+    font-family: 'DM Mono', monospace; font-size: 11px; letter-spacing: 0.15em;
+    text-transform: uppercase; padding: 1rem 2.5rem;
+    cursor: crosshair; transition: all 0.3s;
+    margin-top: 0.5rem;
+  }
+  .form-submit:hover { background: var(--warm); color: var(--ink); border-color: var(--warm); }
+
+  /* FOOTER */
+  footer {
+    background: var(--ink); color: rgba(250,247,242,0.3);
+    border-top: 1px solid rgba(250,247,242,0.08);
+    padding: 2rem 3rem;
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
+  }
+  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; color: rgba(250,247,242,0.6); }
+  .footer-links { display: flex; gap: 2rem; }
+  .footer-links a:hover { color: var(--paper); }
+
+  /* MODAL */
+  .modal-overlay {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(28,23,20,0.92);
+    display: none; align-items: center; justify-content: center;
+    padding: 2rem;
+  }
+  .modal-overlay.open { display: flex; }
+  .modal {
+    background: var(--paper); max-width: 800px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    position: relative; animation: modalIn 0.3s ease;
+  }
+  @keyframes modalIn { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+  .modal-close {
+    position: absolute; top: 1.5rem; right: 1.5rem;
+    background: none; border: 1px solid var(--line);
+    color: var(--muted); font-family: 'DM Mono', monospace;
+    font-size: 11px; padding: 0.4rem 0.8rem; cursor: crosshair;
+    transition: all 0.2s;
+  }
+  .modal-close:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
+  .modal-visual { width: 100%; aspect-ratio: 16/9; background: var(--ink); display: flex; align-items: center; justify-content: center; }
+  .modal-body { padding: 2.5rem; }
+  .modal-cat { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
+  .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; line-height: 1.1; margin-bottom: 1.5rem; }
+  .modal-meta { display: flex; gap: 2rem; margin-bottom: 2rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1rem 0; flex-wrap: wrap; }
+  .modal-meta-key { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+  .modal-meta-val { font-size: 12px; }
+  .modal-text { font-size: 12px; line-height: 2; color: var(--muted); }
+
+  /* ADD PROJECT */
+  .add-project-card {
+    border: 2px dashed var(--line); background: transparent;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 350px; cursor: pointer; transition: all 0.3s;
+    gap: 1rem;
+  }
+  .add-project-card:hover { border-color: var(--accent); background: var(--card-bg); }
+  .add-icon { font-size: 2rem; color: var(--muted); }
+  .add-text { font-size: 11px; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
+
+  /* MOBILE MENU */
+  .mobile-menu {
+    position: fixed; inset: 0; z-index: 90;
+    background: var(--ink); color: var(--paper);
+    display: none; flex-direction: column; align-items: center; justify-content: center;
+    gap: 2rem;
+  }
+  .mobile-menu.open { display: flex; }
+  .mobile-menu a {
+    font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300;
+    color: rgba(250,247,242,0.7); transition: color 0.2s;
+  }
+  .mobile-menu a:hover { color: var(--paper); }
+
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    nav { padding: 1.2rem 1.5rem; }
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+    .hero { grid-template-columns: 1fr; }
+    .hero-left { padding: 7rem 1.5rem 3rem; }
+    .hero-right { min-height: 50vw; }
+    .stats { grid-template-columns: repeat(2, 1fr); padding: 0 1.5rem; }
+    .stat:nth-child(2) { border-right: none; }
+    .stat:nth-child(3) { border-right: 1px solid var(--line); }
+    .section-header { padding: 3rem 1.5rem 2rem; }
+    .projects-grid { grid-template-columns: 1fr; }
+    .project-card:nth-child(even) { border-right: none; }
+    .project-card { border-right: none; }
+    .project-card.featured { grid-template-columns: 1fr; }
+    .project-card.featured .project-visual { min-height: 260px; }
+    .about-section { grid-template-columns: 1fr; }
+    .about-left { padding: 3rem 1.5rem; border-right: none; }
+    .about-right { padding: 3rem 1.5rem; }
+    .contact-section { grid-template-columns: 1fr; padding: 4rem 1.5rem; }
+    footer { flex-direction: column; gap: 1rem; text-align: center; padding: 1.5rem; }
+    .footer-links { flex-wrap: wrap; justify-content: center; }
+  }
+
+  /* ANIMATIONS */
+  .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-logo">Bhavana</div>
+  <ul class="nav-links">
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#projects" onclick="toggleMenu()">Projects</a>
+  <a href="#about" onclick="toggleMenu()">About</a>
+  <a href="#contact" onclick="toggleMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" id="home">
+  <div class="hero-left">
+    <p class="hero-eyebrow">Interior Designer &amp; Principal — Bhavana Studio</p>
+    <h1 class="hero-name">Spaces<br>that <em>Feel</em><br>Like<br>Home.</h1>
+    <p class="hero-desc">Crafting interiors where every surface, texture, and light source works in harmony — turning spaces into deeply personal, liveable stories.</p>
+    <a class="hero-cta" href="#projects">View Projects <span class="arrow">→</span></a>
+  </div>
+  <div class="hero-right">
+    <div class="hero-image-placeholder">
+      <!-- Interior design line illustration -->
+      <svg width="340" height="300" viewBox="0 0 340 300" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
+        <!-- Room perspective -->
+        <polygon points="170,30 20,150 320,150" fill="none" stroke="#faf7f2" stroke-width="1"/>
+        <!-- Floor -->
+        <polygon points="20,150 20,280 320,280 320,150" fill="none" stroke="#faf7f2" stroke-width="1"/>
+        <!-- Back wall -->
+        <rect x="60" y="60" width="220" height="90" fill="none" stroke="#faf7f2" stroke-width="0.6"/>
+        <!-- Left wall panel -->
+        <polygon points="20,150 60,60 60,150" fill="none" stroke="#faf7f2" stroke-width="0.5"/>
+        <!-- Right wall panel -->
+        <polygon points="320,150 280,60 280,150" fill="none" stroke="#faf7f2" stroke-width="0.5"/>
+        <!-- Sofa -->
+        <rect x="100" y="210" width="140" height="40" fill="none" stroke="#faf7f2" stroke-width="1.2"/>
+        <rect x="95" y="205" width="10" height="45" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+        <rect x="235" y="205" width="10" height="45" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+        <!-- Coffee table -->
+        <rect x="140" y="258" width="60" height="18" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+        <!-- Floor lamp -->
+        <line x1="80" y1="155" x2="80" y2="240" stroke="#d4a97a" stroke-width="1"/>
+        <ellipse cx="80" cy="155" rx="15" ry="6" fill="none" stroke="#d4a97a" stroke-width="1"/>
+        <!-- Window -->
+        <rect x="135" y="70" width="70" height="50" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+        <line x1="170" y1="70" x2="170" y2="120" stroke="#faf7f2" stroke-width="0.4"/>
+        <line x1="135" y1="95" x2="205" y2="95" stroke="#faf7f2" stroke-width="0.4"/>
+        <!-- Rug -->
+        <ellipse cx="170" cy="260" rx="65" ry="12" fill="none" stroke="#faf7f2" stroke-width="0.5"/>
+        <!-- Plant -->
+        <line x1="275" y1="175" x2="275" y2="250" stroke="#faf7f2" stroke-width="0.8"/>
+        <circle cx="275" cy="168" r="14" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+      </svg>
+    </div>
+    <div class="hero-tag">Hyderabad · Mumbai · Bangalore</div>
+  </div>
+  <div class="hero-scroll">Scroll</div>
+</section>
+
+<!-- STATS -->
+<div class="stats reveal">
+  <div class="stat"><span class="stat-num">12</span><span class="stat-label">Years Practice</span></div>
+  <div class="stat"><span class="stat-num">95</span><span class="stat-label">Spaces Designed</span></div>
+  <div class="stat"><span class="stat-num">8</span><span class="stat-label">Awards</span></div>
+  <div class="stat"><span class="stat-num">3</span><span class="stat-label">Cities</span></div>
+</div>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="section-header reveal">
+    <h2 class="section-title">Selected<br><em>Interiors</em></h2>
+    <span class="section-counter">— 01 / 06</span>
+  </div>
+
+  <div class="projects-grid" id="projectsGrid">
+
+    <!-- Featured -->
+    <div class="project-card featured reveal" onclick="openModal(0)">
+      <div class="project-visual pv-1">
+        <svg width="400" height="280" viewBox="0 0 400 280" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
+          <!-- Living room perspective -->
+          <rect x="20" y="20" width="360" height="240" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+          <line x1="80" y1="20" x2="80" y2="260" stroke="#faf7f2" stroke-width="0.4"/>
+          <line x1="320" y1="20" x2="320" y2="260" stroke="#faf7f2" stroke-width="0.4"/>
+          <line x1="20" y1="170" x2="380" y2="170" stroke="#faf7f2" stroke-width="0.4"/>
+          <rect x="130" y="180" width="140" height="50" fill="none" stroke="#faf7f2" stroke-width="1.2"/>
+          <rect x="160" y="235" width="80" height="15" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+          <rect x="120" y="60" width="160" height="90" fill="none" stroke="#d4a97a" stroke-width="1"/>
+          <line x1="200" y1="60" x2="200" y2="150" stroke="#d4a97a" stroke-width="0.5"/>
+          <line x1="120" y1="105" x2="280" y2="105" stroke="#d4a97a" stroke-width="0.5"/>
+        </svg>
+      </div>
+      <div class="project-info">
+        <p class="project-index">01 — Featured</p>
+        <h3 class="project-title">The Amber Residence</h3>
+        <p class="project-meta">Hyderabad, India · 2024 · 4,200 sq ft</p>
+        <p class="project-desc">A sprawling family home reimagined around warmth and intention — hand-trowelled plaster walls, custom joinery in aged brass, and layered textiles sourced from Rajasthani weavers. Winner of the Elle Décor India Award 2024.</p>
+        <span class="project-tag">Residential</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal" onclick="openModal(1)">
+      <div class="project-visual pv-2">
+        <svg width="280" height="210" viewBox="0 0 280 210" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect x="20" y="20" width="240" height="170" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+          <rect x="60" y="100" width="160" height="60" fill="none" stroke="#faf7f2" stroke-width="1.2"/>
+          <rect x="20" y="20" width="60" height="170" fill="none" stroke="#faf7f2" stroke-width="0.5"/>
+          <rect x="75" y="130" width="35" height="30" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+          <rect x="170" y="130" width="35" height="30" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+          <line x1="140" y1="20" x2="140" y2="100" stroke="#d4a97a" stroke-width="0.8"/>
+        </svg>
+      </div>
+      <div class="project-info">
+        <p class="project-index">02</p>
+        <h3 class="project-title">Verdant Café & Co-Work</h3>
+        <p class="project-meta">Bangalore, India · 2023 · 2,800 sq ft</p>
+        <p class="project-desc">A biophilic café and coworking hybrid built around a 14-foot living moss wall, terrazzo floors, and rattan pendant clusters that diffuse afternoon light into gold.</p>
+        <span class="project-tag">Commercial</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal" onclick="openModal(2)">
+      <div class="project-visual pv-3">
+        <svg width="280" height="210" viewBox="0 0 280 210" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="30" width="220" height="150" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+          <line x1="30" y1="120" x2="250" y2="120" stroke="#faf7f2" stroke-width="0.4"/>
+          <rect x="60" y="130" width="60" height="50" fill="none" stroke="#faf7f2" stroke-width="1"/>
+          <rect x="160" y="130" width="60" height="50" fill="none" stroke="#faf7f2" stroke-width="1"/>
+          <rect x="80" y="40" width="120" height="60" fill="none" stroke="#d4a97a" stroke-width="1"/>
+          <line x1="140" y1="40" x2="140" y2="100" stroke="#d4a97a" stroke-width="0.5"/>
+        </svg>
+      </div>
+      <div class="project-info">
+        <p class="project-index">03</p>
+        <h3 class="project-title">Suite Indigo — Boutique Hotel</h3>
+        <p class="project-meta">Mumbai, India · 2023 · 18 Suites</p>
+        <p class="project-desc">A boutique hotel where each suite tells a different chapter of Indian craft — Kalamkari murals in one room, Bidriware inlay accents in the next. Consistently rated in Condé Nast Traveller's top 20.</p>
+        <span class="project-tag">Hospitality</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal" onclick="openModal(3)">
+      <div class="project-visual pv-4">
+        <svg width="280" height="210" viewBox="0 0 280 210" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="140" cy="105" r="75" fill="none" stroke="#faf7f2" stroke-width="1"/>
+          <circle cx="140" cy="105" r="45" fill="none" stroke="#d4a97a" stroke-width="0.8"/>
+          <line x1="65" y1="105" x2="215" y2="105" stroke="#faf7f2" stroke-width="0.4"/>
+          <line x1="140" y1="30" x2="140" y2="180" stroke="#faf7f2" stroke-width="0.4"/>
+          <rect x="118" y="83" width="44" height="44" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+        </svg>
+      </div>
+      <div class="project-info">
+        <p class="project-index">04</p>
+        <h3 class="project-title">The Still Room — Spa</h3>
+        <p class="project-meta">Hyderabad, India · 2022 · 3,000 sq ft</p>
+        <p class="project-desc">A wellness sanctuary designed around stillness — white marble, low candlelight, hand-thrown pottery, and a palette drawn from the interior of a Deccan cloud at dusk.</p>
+        <span class="project-tag">Wellness</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal" onclick="openModal(4)">
+      <div class="project-visual pv-5">
+        <svg width="280" height="210" viewBox="0 0 280 210" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect x="15" y="15" width="250" height="180" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+          <rect x="15" y="15" width="120" height="90" fill="none" stroke="#faf7f2" stroke-width="0.5"/>
+          <rect x="135" y="15" width="130" height="90" fill="none" stroke="#faf7f2" stroke-width="0.5"/>
+          <rect x="60" y="130" width="160" height="50" fill="none" stroke="#faf7f2" stroke-width="1.2"/>
+          <line x1="140" y1="105" x2="140" y2="130" stroke="#d4a97a" stroke-width="0.8"/>
+        </svg>
+      </div>
+      <div class="project-info">
+        <p class="project-index">05</p>
+        <h3 class="project-title">Loft No. 7 — Penthouse</h3>
+        <p class="project-meta">Mumbai, India · 2021 · 5,500 sq ft</p>
+        <p class="project-desc">A double-height penthouse stripped to its bones — exposed concrete ceilings, polished microcement floors, and custom furniture in smoked oak and brushed bronze that let the city skyline do the rest.</p>
+        <span class="project-tag">Luxury Residential</span>
+      </div>
+    </div>
+
+    <div class="project-card reveal" onclick="openModal(5)">
+      <div class="project-visual pv-6">
+        <svg width="280" height="210" viewBox="0 0 280 210" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
+          <rect x="30" y="20" width="220" height="170" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+          <rect x="30" y="20" width="80" height="170" fill="none" stroke="#faf7f2" stroke-width="0.5"/>
+          <line x1="110" y1="20" x2="110" y2="190" stroke="#d4a97a" stroke-width="0.8"/>
+          <rect x="130" y="80" width="100" height="70" fill="none" stroke="#faf7f2" stroke-width="1.2"/>
+          <rect x="50" y="60" width="40" height="100" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+        </svg>
+      </div>
+      <div class="project-info">
+        <p class="project-index">06</p>
+        <h3 class="project-title">Hive — Creative Agency Office</h3>
+        <p class="project-meta">Bangalore, India · 2020 · 6,000 sq ft</p>
+        <p class="project-desc">A vibrant creative studio where each zone carries its own personality — a library nook in forest green velvet, a brainstorm room lined in writeable blackboard paint, and a kitchen in glazed indigo tile.</p>
+        <span class="project-tag">Workspace</span>
+      </div>
+    </div>
+
+    <!-- Add project card -->
+    <div class="add-project-card" onclick="showAddProject()">
+      <div class="add-icon">+</div>
+      <p class="add-text">Add New Project</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about" class="about-section">
+  <div class="about-left reveal">
+    <h2 class="about-title">Practice<br>&amp; <em>Philosophy</em></h2>
+    <div class="about-body">
+      <p>Bhavana Studio is a Hyderabad-based interior design practice working across residential, hospitality, and commercial spaces. Every project begins with a single question: how should this space make you feel?</p>
+      <p>Deeply rooted in Indian craft traditions while fluent in contemporary spatial language, the studio brings together skilled artisans, material specialists, and light designers to create environments that are beautiful, liveable, and honest about where they come from.</p>
+    </div>
+    <div class="about-services">
+      <div class="service-line"><span>Residential Interiors</span><span>—</span></div>
+      <div class="service-line"><span>Hospitality &amp; F&amp;B Design</span><span>—</span></div>
+      <div class="service-line"><span>Workplace &amp; Commercial</span><span>—</span></div>
+      <div class="service-line"><span>Furniture &amp; Object Design</span><span>—</span></div>
+      <div class="service-line"><span>Material &amp; Craft Sourcing</span><span>—</span></div>
+    </div>
+  </div>
+  <div class="about-right reveal">
+    <p class="awards-title">Recognition</p>
+    <div class="award-item"><div class="award-year">2024</div><div class="award-name">Elle Décor India Award</div><div class="award-body">Residential Design of the Year — The Amber Residence</div></div>
+    <div class="award-item"><div class="award-year">2023</div><div class="award-name">Condé Nast India — Top Designer</div><div class="award-body">40 Under 40, Interior Design</div></div>
+    <div class="award-item"><div class="award-year">2022</div><div class="award-name">India Design ID Award</div><div class="award-body">Best Hospitality Interior — Suite Indigo</div></div>
+    <div class="award-item"><div class="award-year">2021</div><div class="award-name">Surface Design Award</div><div class="award-body">Best Use of Craft Material — Loft No. 7</div></div>
+    <div class="award-item"><div class="award-year">2020</div><div class="award-name">Dezeen Interiors Longlist</div><div class="award-body">Workplace Category — Hive Creative Office</div></div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="contact-section">
+  <div>
+    <h2 class="contact-title">Let's <em>Design</em><br>Together</h2>
+    <p class="contact-body">Whether you're building a home from scratch, reimagining a restaurant, or creating a workspace your team will love — let's talk about what your space could become.</p>
+    <br><br>
+    <p class="contact-body" style="color:rgba(250,247,242,0.3); font-size:11px; letter-spacing:0.1em;">
+      Bhavana Studio<br>
+      Jubilee Hills, Hyderabad 500033<br>
+      hello@bhavanastudio.in<br>
+      +91 98480 00000
+    </p>
+  </div>
+  <form class="contact-form" onsubmit="handleSubmit(event)">
+    <div class="form-group">
+      <label class="form-label">Your Name</label>
+      <input class="form-input" type="text" placeholder="Full name" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Email</label>
+      <input class="form-input" type="email" placeholder="your@email.com" required>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Space Type</label>
+      <input class="form-input" type="text" placeholder="Home, Restaurant, Office, Hotel...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Tell Me About Your Space</label>
+      <textarea class="form-textarea" placeholder="Size, location, mood, inspiration..."></textarea>
+    </div>
+    <button class="form-submit" type="submit">Send Enquiry →</button>
+  </form>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Bhavana</div>
+  <div class="footer-links">
+    <a href="#">Instagram</a>
+    <a href="#">Pinterest</a>
+    <a href="#">Press</a>
+    <a href="#">Privacy</a>
+  </div>
+  <div>© 2025 Bhavana Studio</div>
+</footer>
+
+<!-- PROJECT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal" id="modal">
+    <button class="modal-close" onclick="closeModalBtn()">Close ✕</button>
+    <div class="modal-visual" id="modalVisual"></div>
+    <div class="modal-body">
+      <p class="modal-cat" id="modalCat"></p>
+      <h2 class="modal-title" id="modalTitle"></h2>
+      <div class="modal-meta" id="modalMeta"></div>
+      <p class="modal-text" id="modalText"></p>
+    </div>
+  </div>
+</div>
+
+<!-- ADD PROJECT MODAL -->
+<div class="modal-overlay" id="addModal" onclick="closeAddModal(event)">
+  <div class="modal" style="max-width:560px;">
+    <button class="modal-close" onclick="document.getElementById('addModal').classList.remove('open');document.body.style.overflow=''">Close ✕</button>
+    <div class="modal-body" style="padding-top:3.5rem;">
+      <h2 class="modal-title">Add Project</h2>
+      <form style="display:flex;flex-direction:column;gap:1.5rem;margin-top:1.5rem;" onsubmit="addProject(event)">
+        <div class="form-group">
+          <label class="form-label" style="color:var(--muted)">Project Title</label>
+          <input id="np-title" class="form-input" style="border-bottom:1px solid var(--line);color:var(--ink);" type="text" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="color:var(--muted)">Location &amp; Year</label>
+          <input id="np-meta" class="form-input" style="border-bottom:1px solid var(--line);color:var(--ink);" type="text" placeholder="City · 2025 · 2,000 sq ft">
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="color:var(--muted)">Category</label>
+          <input id="np-cat" class="form-input" style="border-bottom:1px solid var(--line);color:var(--ink);" type="text" placeholder="Residential, Hospitality, Commercial...">
+        </div>
+        <div class="form-group">
+          <label class="form-label" style="color:var(--muted)">Description</label>
+          <textarea id="np-desc" class="form-textarea" style="border-bottom:1px solid var(--line);color:var(--ink);height:80px;resize:none;" placeholder="Brief project description..."></textarea>
+        </div>
+        <button type="submit" class="hero-cta" style="cursor:pointer;font-family:inherit;">Add to Portfolio →</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+const projects = [
+  {
+    index:"01", cat:"Residential", title:"The Amber Residence",
+    location:"Hyderabad, India", year:"2024", size:"4,200 sq ft", client:"Private Family",
+    desc:"A sprawling family home reimagined around warmth and intention. Hand-trowelled plaster walls in a palette of saffron and chalk, custom joinery in aged brass, and layered textiles sourced from Rajasthani weavers create a home that is unmistakably Indian and timelessly modern. Winner of the Elle Décor India Award 2024.",
+    bg:"pv-1"
+  },
+  {
+    index:"02", cat:"Commercial", title:"Verdant Café & Co-Work",
+    location:"Bangalore, India", year:"2023", size:"2,800 sq ft", client:"Verdant Ventures",
+    desc:"A biophilic café and coworking hybrid built around a 14-foot living moss wall. Terrazzo floors in blush and sage, rattan pendant clusters that diffuse afternoon light into gold, and flexible furniture allow the space to shift from morning coffee ritual to focused afternoon work.",
+    bg:"pv-2"
+  },
+  {
+    index:"03", cat:"Hospitality", title:"Suite Indigo — Boutique Hotel",
+    location:"Mumbai, India", year:"2023", size:"18 Suites", client:"Suite Indigo Hotels",
+    desc:"A boutique hotel where each suite tells a different chapter of Indian craft heritage — Kalamkari murals in one room, Bidriware inlay accents in the next, hand-block printed linens throughout. The property has been consistently rated in Condé Nast Traveller India's top 20 boutique hotels.",
+    bg:"pv-3"
+  },
+  {
+    index:"04", cat:"Wellness", title:"The Still Room — Spa",
+    location:"Hyderabad, India", year:"2022", size:"3,000 sq ft", client:"The Still Room",
+    desc:"A wellness sanctuary designed around silence and slowness. White Makrana marble, low-temperature candlelight, hand-thrown pottery vessels, and a palette drawn from the interior of a Deccan cloud at dusk. Sound isolation was designed in tandem with the materiality to create a place of genuine rest.",
+    bg:"pv-4"
+  },
+  {
+    index:"05", cat:"Luxury Residential", title:"Loft No. 7 — Penthouse",
+    location:"Mumbai, India", year:"2021", size:"5,500 sq ft", client:"Private",
+    desc:"A double-height penthouse stripped to its bones and rebuilt with restraint. Exposed concrete ceilings, polished microcement floors, and bespoke furniture in smoked oak and brushed bronze let the 270-degree city skyline serve as the primary artwork. The brief was one word: quiet.",
+    bg:"pv-5"
+  },
+  {
+    index:"06", cat:"Workspace", title:"Hive — Creative Agency Office",
+    location:"Bangalore, India", year:"2020", size:"6,000 sq ft", client:"Hive Creative Co.",
+    desc:"A vibrant creative studio where each zone carries its own character and purpose. A library nook in forest green velvet, a brainstorm room lined in writeable blackboard paint, a kitchen in glazed indigo tile, and a rooftop terrace planted with native herbs. Longlisted for the Dezeen Interiors Award.",
+    bg:"pv-6"
+  }
+];
+
+const pvColors = {
+  pv1:["#1c1410","#2e2218"], pv2:["#101814","#182820"],
+  pv3:["#18101c","#281428"], pv4:["#1c140a","#2e2010"],
+  pv5:["#0c1418","#142028"], pv6:["#1a1016","#281820"]
+};
+
+function openModal(i) {
+  const p = projects[i];
+  const overlay = document.getElementById('modalOverlay');
+  document.getElementById('modalCat').textContent = `${p.index} — ${p.cat}`;
+  document.getElementById('modalTitle').textContent = p.title;
+  document.getElementById('modalText').textContent = p.desc;
+  document.getElementById('modalMeta').innerHTML = `
+    <div class="modal-meta-item"><div class="modal-meta-key">Location</div><div class="modal-meta-val">${p.location}</div></div>
+    <div class="modal-meta-item"><div class="modal-meta-key">Year</div><div class="modal-meta-val">${p.year}</div></div>
+    <div class="modal-meta-item"><div class="modal-meta-key">Size</div><div class="modal-meta-val">${p.size}</div></div>
+    <div class="modal-meta-item"><div class="modal-meta-key">Client</div><div class="modal-meta-val">${p.client}</div></div>
+  `;
+  const key = `pv${i+1}`;
+  const cols = pvColors[key] || ["#1c1714","#100e0b"];
+  document.getElementById('modalVisual').style.background = `linear-gradient(135deg, ${cols[0]} 0%, ${cols[1]} 100%)`;
+  overlay.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeModal(e) {
+  if (e.target === document.getElementById('modalOverlay')) closeModalBtn();
+}
+function closeModalBtn() {
+  document.getElementById('modalOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function showAddProject() {
+  document.getElementById('addModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeAddModal(e) {
+  if (e.target === document.getElementById('addModal')) {
+    document.getElementById('addModal').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+function addProject(e) {
+  e.preventDefault();
+  const title = document.getElementById('np-title').value.trim();
+  const meta = document.getElementById('np-meta').value.trim();
+  const cat = document.getElementById('np-cat').value.trim() || 'Project';
+  const desc = document.getElementById('np-desc').value.trim();
+  const idx = projects.length + 1;
+  const bgs = ['pv-1','pv-2','pv-3','pv-4','pv-5','pv-6'];
+  const bg = bgs[(idx - 1) % 6];
+  const pvN = `pv${((idx-1)%6)+1}`;
+  const cols = pvColors[pvN] || ["#1c1714","#100e0b"];
+
+  projects.push({
+    index: String(idx).padStart(2,'0'), cat, title,
+    location: meta.split('·')[0]?.trim() || 'India',
+    year: meta.split('·')[1]?.trim() || '2025',
+    size: meta.split('·')[2]?.trim() || '—',
+    client: 'Private', desc
+  });
+
+  const grid = document.getElementById('projectsGrid');
+  const addCard = grid.lastElementChild;
+  const card = document.createElement('div');
+  card.className = 'project-card reveal visible';
+  card.onclick = () => openModal(projects.length - 1);
+  card.innerHTML = `
+    <div class="project-visual ${bg}" style="background:linear-gradient(135deg,${cols[0]} 0%,${cols[1]} 100%)">
+      <svg width="280" height="210" viewBox="0 0 280 210" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
+        <rect x="40" y="40" width="200" height="130" fill="none" stroke="#faf7f2" stroke-width="1"/>
+        <line x1="40" y1="100" x2="240" y2="100" stroke="#faf7f2" stroke-width="0.5"/>
+        <line x1="140" y1="40" x2="140" y2="170" stroke="#d4a97a" stroke-width="0.5"/>
+        <rect x="100" y="120" width="80" height="40" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
+      </svg>
+    </div>
+    <div class="project-info">
+      <p class="project-index">${String(idx).padStart(2,'0')}</p>
+      <h3 class="project-title">${title}</h3>
+      <p class="project-meta">${meta}</p>
+      <p class="project-desc">${desc}</p>
+      <span class="project-tag">${cat}</span>
+    </div>
+  `;
+  grid.insertBefore(card, addCard);
+  document.getElementById('addModal').classList.remove('open');
+  document.body.style.overflow = '';
+  e.target.reset();
+}
+
+function handleSubmit(e) {
+  e.preventDefault();
+  const btn = e.target.querySelector('.form-submit');
+  btn.textContent = 'Sent ✓';
+  btn.style.background = 'var(--warm)';
+  btn.style.color = 'var(--ink)';
+  setTimeout(() => { btn.textContent = 'Send Enquiry →'; btn.style.background=''; btn.style.color=''; e.target.reset(); }, 3000);
+}
+
+window.addEventListener('scroll', () => {
+  document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 80);
+});
+
+function toggleMenu() {
+  document.getElementById('mobileMenu').classList.toggle('open');
+}
+
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(r => obs.observe(r));
+</script>
+</body>
+</html>
