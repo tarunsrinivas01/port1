@@ -3,9 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bhavana — Interior Designer</title>
+<title>Brick Storey — Architecture · Interiors</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
+<link rel="alternate icon" type="image/png" href="favicon.png">
+<link rel="apple-touch-icon" href="favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Mono:wght@300;400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -45,9 +48,27 @@
   }
   nav.scrolled { background: var(--paper); border-bottom: 1px solid var(--line); }
   .nav-logo {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 1.1rem; font-weight: 400; letter-spacing: 0.08em;
+    display: flex; align-items: center; gap: 0.65rem;
+    color: #1c1714;
+  }
+  .brand-mark { width: 48px; height: 44px; display: block; flex-shrink: 0; }
+  .brand-text { display: flex; flex-direction: column; gap: 5px; line-height: 1; }
+  .brand-name {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.05rem; font-weight: 500;
+    letter-spacing: 0.32em; text-transform: uppercase;
+    display: flex; gap: 0.6em;
+  }
+  .brand-name .brand-accent { color: #b76639; }
+  .brand-tag {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 7.5px; font-weight: 400; letter-spacing: 0.28em;
     text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    color: rgba(28,23,20,0.7);
+  }
+  .brand-tag .rule {
+    flex: 0 0 18px; height: 1px; background: currentColor; opacity: 0.55;
   }
   .nav-links { display: flex; gap: 2.5rem; list-style: none; }
   .nav-links a {
@@ -150,12 +171,12 @@
   /* SECTION HEADER */
   .section-header {
     display: flex; align-items: baseline; justify-content: space-between;
-    padding: 5rem 3rem 3rem;
+    padding: 3rem 2.5rem 1.75rem;
     border-bottom: 1px solid var(--line);
   }
   .section-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-size: clamp(1.75rem, 4vw, 2.5rem);
     font-weight: 300; line-height: 1.1;
   }
   .section-title em { font-style: italic; color: var(--accent); }
@@ -184,10 +205,54 @@
   .project-card:hover .project-tag { background: var(--accent); color: var(--paper); }
 
   .project-visual {
-    width: 100%; aspect-ratio: 4/3;
+    width: 100%; aspect-ratio: 16/10;
+    max-height: 320px;
     background: var(--ink);
     position: relative; overflow: hidden;
     display: flex; align-items: center; justify-content: center;
+  }
+  .project-visual .slideshow { width: 100%; height: 100%; }
+  .project-card.has-photo:hover { background: var(--card-bg); }
+
+  /* SLIDESHOW */
+  .slideshow {
+    position: relative; width: 100%; height: 100%;
+    overflow: hidden; background: var(--ink);
+  }
+  .slideshow-track {
+    display: flex; height: 100%;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  .slideshow-slide { flex: 0 0 100%; height: 100%; }
+  .slideshow-slide img {
+    width: 100%; height: 100%; object-fit: cover; display: block;
+  }
+  .slideshow-btn {
+    position: absolute; top: 50%; transform: translateY(-50%);
+    z-index: 2; width: 32px; height: 32px;
+    border: 1px solid rgba(250,247,242,0.35); background: rgba(28,23,20,0.45);
+    color: var(--paper); font-family: inherit; font-size: 14px;
+    cursor: crosshair; transition: background 0.2s, border-color 0.2s;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .slideshow-btn:hover { background: rgba(28,23,20,0.75); border-color: var(--paper); }
+  .slideshow-prev { left: 0.6rem; }
+  .slideshow-next { right: 0.6rem; }
+  .slideshow-dots {
+    position: absolute; bottom: 0.65rem; left: 50%; transform: translateX(-50%);
+    z-index: 2; display: flex; gap: 0.45rem; align-items: center;
+  }
+  .slideshow-dot {
+    width: 7px; height: 7px; padding: 0; border-radius: 50%;
+    border: 1px solid rgba(250,247,242,0.6); background: transparent;
+    cursor: crosshair; transition: background 0.2s, transform 0.2s;
+  }
+  .slideshow-dot.active { background: var(--paper); transform: scale(1.15); }
+  .slideshow-counter {
+    position: absolute; top: 0.6rem; right: 0.6rem; z-index: 2;
+    font-size: 10px; letter-spacing: 0.15em; color: var(--paper);
+    background: rgba(28,23,20,0.5); padding: 0.35rem 0.65rem;
+    border: 1px solid rgba(250,247,242,0.2);
   }
   .pv-1 { background: linear-gradient(135deg, #1c1410 0%, #2e2218 100%); }
   .pv-2 { background: linear-gradient(135deg, #101814 0%, #182820 100%); }
@@ -199,15 +264,19 @@
   .arch-svg { opacity: 0.3; transition: opacity 0.4s; }
   .project-card:hover .arch-svg { opacity: 0.6; }
 
-  .project-info { padding: 2rem; }
-  .project-index { font-size: 10px; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 0.8rem; transition: color 0.4s; }
+  .project-info { padding: 1.25rem 1.5rem 1.5rem; }
+  .project-index { font-size: 10px; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 0.4rem; transition: color 0.4s; }
   .project-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 1.6rem; font-weight: 300; line-height: 1.2;
-    margin-bottom: 0.5rem; transition: color 0.4s;
+    font-size: 1.35rem; font-weight: 300; line-height: 1.2;
+    margin-bottom: 0.35rem; transition: color 0.4s;
   }
-  .project-meta { font-size: 10px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 1rem; transition: color 0.4s; }
-  .project-desc { font-size: 11px; line-height: 1.8; color: var(--muted); margin-bottom: 1.5rem; transition: color 0.4s; }
+  .project-meta { font-size: 10px; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 0.6rem; transition: color 0.4s; }
+  .project-desc {
+    font-size: 11px; line-height: 1.65; color: var(--muted); margin-bottom: 0.85rem;
+    transition: color 0.4s;
+    display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;
+  }
   .project-tag {
     display: inline-block; font-size: 9px; letter-spacing: 0.2em;
     text-transform: uppercase; padding: 0.3rem 0.8rem;
@@ -220,10 +289,18 @@
     grid-column: 1 / -1;
     display: grid; grid-template-columns: 1fr 1fr;
     border-right: none;
+    max-width: 2100px;
+    margin: 0 auto;
+    width: 100%;
   }
-  .project-card.featured .project-visual { aspect-ratio: unset; min-height: 400px; }
-  .project-card.featured .project-info { padding: 3rem; display: flex; flex-direction: column; justify-content: center; }
-  .project-card.featured .project-title { font-size: clamp(2rem, 4vw, 3rem); }
+  .project-card.featured .project-visual {
+    aspect-ratio: unset; min-height: unset; max-height: 280px; height: 280px;
+  }
+  .project-card.featured .project-info {
+    padding: 1.5rem 2rem; display: flex; flex-direction: column; justify-content: center;
+  }
+  .project-card.featured .project-title { font-size: clamp(1.5rem, 2.5vw, 2rem); }
+  .project-card.featured .project-desc { -webkit-line-clamp: 4; }
 
   /* ABOUT */
   .about-section {
@@ -275,17 +352,46 @@
   }
   .contact-title em { font-style: italic; color: var(--warm); }
   .contact-body { color: rgba(250,247,242,0.5); font-size: 12px; line-height: 1.9; }
-  .contact-form { display: flex; flex-direction: column; gap: 1.5rem; }
-  .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
-  .form-label { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(250,247,242,0.4); }
-  .form-input, .form-textarea {
-    background: transparent; border: none; border-bottom: 1px solid rgba(250,247,242,0.15);
-    color: var(--paper); font-family: 'DM Mono', monospace; font-size: 13px; font-weight: 300;
-    padding: 0.8rem 0; outline: none; width: 100%;
-    transition: border-color 0.3s;
+  .contact-cta {
+    display: flex; flex-direction: column; justify-content: center;
+    gap: 1.5rem;
   }
-  .form-input:focus, .form-textarea:focus { border-bottom-color: var(--warm); }
-  .form-textarea { resize: none; height: 100px; }
+  .contact-cta-eyebrow {
+    font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+    color: rgba(250,247,242,0.4);
+  }
+  .contact-cta-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    font-weight: 300; line-height: 1.2; color: var(--paper);
+    max-width: 420px;
+  }
+  .contact-cta-title em { font-style: italic; color: var(--warm); }
+  .contact-cta-body {
+    color: rgba(250,247,242,0.55); font-size: 12px; line-height: 1.9;
+    max-width: 420px;
+  }
+  .whatsapp-btn {
+    align-self: flex-start; display: inline-flex; align-items: center; gap: 0.85rem;
+    background: #25d366; color: #0a2e1c;
+    border: none; padding: 1.05rem 1.8rem;
+    font-family: 'DM Mono', monospace; font-size: 12px;
+    font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase;
+    cursor: crosshair; transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    text-decoration: none;
+  }
+  .whatsapp-btn:hover { background: #1ebd5c; transform: translateY(-1px); box-shadow: 0 8px 24px rgba(37,211,102,0.25); }
+  .whatsapp-btn svg { width: 20px; height: 20px; flex-shrink: 0; }
+  .whatsapp-btn .arrow { transition: transform 0.25s; }
+  .whatsapp-btn:hover .arrow { transform: translateX(4px); }
+  .contact-alt {
+    font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase;
+    color: rgba(250,247,242,0.45);
+    display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap;
+  }
+  .contact-alt a { color: rgba(250,247,242,0.85); transition: color 0.2s; }
+  .contact-alt a:hover { color: var(--warm); }
+  .contact-alt .dot { opacity: 0.4; }
   .form-submit {
     align-self: flex-start; background: transparent;
     border: 1px solid rgba(250,247,242,0.3); color: var(--paper);
@@ -304,7 +410,13 @@
     display: flex; justify-content: space-between; align-items: center;
     font-size: 10px; letter-spacing: 0.15em; text-transform: uppercase;
   }
-  .footer-logo { font-family: 'Cormorant Garamond', serif; font-size: 1rem; font-weight: 300; color: rgba(250,247,242,0.6); }
+  .footer-logo {
+    display: flex; align-items: center; gap: 0.55rem;
+    color: rgba(250,247,242,0.92);
+  }
+  .footer-logo .brand-mark { width: 38px; height: 36px; }
+  .footer-logo .brand-name { font-size: 0.85rem; letter-spacing: 0.3em; }
+  .footer-logo .brand-tag { color: rgba(250,247,242,0.4); font-size: 6.5px; }
   .footer-links { display: flex; gap: 2rem; }
   .footer-links a:hover { color: var(--paper); }
 
@@ -330,21 +442,24 @@
     transition: all 0.2s;
   }
   .modal-close:hover { background: var(--ink); color: var(--paper); border-color: var(--ink); }
-  .modal-visual { width: 100%; aspect-ratio: 16/9; background: var(--ink); display: flex; align-items: center; justify-content: center; }
-  .modal-body { padding: 2.5rem; }
-  .modal-cat { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.5rem; }
-  .modal-title { font-family: 'Cormorant Garamond', serif; font-size: 2.5rem; font-weight: 300; line-height: 1.1; margin-bottom: 1.5rem; }
-  .modal-meta { display: flex; gap: 2rem; margin-bottom: 2rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 1rem 0; flex-wrap: wrap; }
+  .modal-visual { width: 100%; aspect-ratio: 16/10; max-height: 380px; background: var(--ink); overflow: hidden; position: relative; }
+  .modal-visual .slideshow { position: absolute; inset: 0; aspect-ratio: auto; }
+  .modal.has-gallery { max-width: 720px; }
+  .modal-close { z-index: 5; }
+  .modal-body { padding: 1.5rem 2rem 2rem; }
+  .modal-cat { font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); margin-bottom: 0.35rem; }
+  .modal-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 300; line-height: 1.1; margin-bottom: 1rem; }
+  .modal-meta { display: flex; gap: 1.5rem; margin-bottom: 1.25rem; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 0.75rem 0; flex-wrap: wrap; }
   .modal-meta-key { font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
   .modal-meta-val { font-size: 12px; }
-  .modal-text { font-size: 12px; line-height: 2; color: var(--muted); }
+  .modal-text { font-size: 11px; line-height: 1.75; color: var(--muted); }
 
   /* ADD PROJECT */
   .add-project-card {
     border: 2px dashed var(--line); background: transparent;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    min-height: 350px; cursor: pointer; transition: all 0.3s;
-    gap: 1rem;
+    min-height: 200px; cursor: pointer; transition: all 0.3s;
+    gap: 0.75rem;
   }
   .add-project-card:hover { border-color: var(--accent); background: var(--card-bg); }
   .add-icon { font-size: 2rem; color: var(--muted); }
@@ -368,6 +483,10 @@
   @media (max-width: 900px) {
     nav { padding: 1.2rem 1.5rem; }
     .nav-links { display: none; }
+    .nav-logo .brand-tag { display: none; }
+    .nav-logo .brand-name { font-size: 1.1rem; }
+    .brand-mark { width: 36px; height: 36px; }
+    footer .footer-logo .brand-tag { display: none; }
     .hamburger { display: flex; }
     .hero { grid-template-columns: 1fr; }
     .hero-left { padding: 7rem 1.5rem 3rem; }
@@ -375,12 +494,15 @@
     .stats { grid-template-columns: repeat(2, 1fr); padding: 0 1.5rem; }
     .stat:nth-child(2) { border-right: none; }
     .stat:nth-child(3) { border-right: 1px solid var(--line); }
-    .section-header { padding: 3rem 1.5rem 2rem; }
+    .section-header { padding: 2.5rem 1.5rem 1.25rem; }
     .projects-grid { grid-template-columns: 1fr; }
     .project-card:nth-child(even) { border-right: none; }
     .project-card { border-right: none; }
-    .project-card.featured { grid-template-columns: 1fr; }
-    .project-card.featured .project-visual { min-height: 260px; }
+    .project-card.featured { grid-template-columns: 1fr; max-width: none; }
+    .project-card.featured .project-visual { height: 220px; max-height: 220px; }
+    .project-card.featured .project-info { padding: 1.25rem 1.5rem; }
+    .project-visual { max-height: 240px; }
+    .add-project-card { min-height: 160px; }
     .about-section { grid-template-columns: 1fr; }
     .about-left { padding: 3rem 1.5rem; border-right: none; }
     .about-right { padding: 3rem 1.5rem; }
@@ -398,7 +520,70 @@
 
 <!-- NAV -->
 <nav id="navbar">
-  <div class="nav-logo">Bhavana</div>
+  <a class="nav-logo" href="#home" aria-label="Brick Storey — Architecture · Interiors">
+    <svg class="brand-mark" viewBox="0 0 240 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <pattern id="nav-bricks" patternUnits="userSpaceOnUse" width="18" height="14">
+      <rect width="18" height="14" fill="#c46a3a"/>
+      <line x1="0" y1="0" x2="18" y2="0" stroke="#3d2418" stroke-width="0.8"/>
+      <line x1="0" y1="7" x2="18" y2="7" stroke="#3d2418" stroke-width="0.8"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#3d2418" stroke-width="0.8"/>
+      <line x1="9" y1="7" x2="9" y2="14" stroke="#3d2418" stroke-width="0.8"/>
+    </pattern>
+    <clipPath id="nav-medallion"><circle cx="150" cy="142" r="33"/></clipPath>
+  </defs>
+  <line x1="50" y1="28" x2="50" y2="178" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="50" y1="28" x2="72" y2="28" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="72" y1="28" x2="72" y2="166" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <line x1="72" y1="36" x2="83" y2="36"/>
+    <line x1="72" y1="40" x2="77" y2="40"/>
+    <line x1="72" y1="44" x2="77" y2="44"/>
+    <line x1="72" y1="48" x2="77" y2="48"/>
+    <line x1="72" y1="52" x2="83" y2="52"/>
+    <line x1="72" y1="56" x2="77" y2="56"/>
+    <line x1="72" y1="60" x2="77" y2="60"/>
+    <line x1="72" y1="64" x2="77" y2="64"/>
+    <line x1="72" y1="68" x2="83" y2="68"/>
+    <line x1="72" y1="72" x2="77" y2="72"/>
+    <line x1="72" y1="76" x2="77" y2="76"/>
+    <line x1="72" y1="80" x2="77" y2="80"/>
+    <line x1="72" y1="84" x2="83" y2="84"/>
+    <line x1="72" y1="88" x2="77" y2="88"/>
+    <line x1="72" y1="92" x2="77" y2="92"/>
+    <line x1="72" y1="96" x2="77" y2="96"/>
+    <line x1="72" y1="100" x2="83" y2="100"/>
+    <line x1="72" y1="104" x2="77" y2="104"/>
+    <line x1="72" y1="108" x2="77" y2="108"/>
+    <line x1="72" y1="112" x2="77" y2="112"/>
+    <line x1="72" y1="116" x2="83" y2="116"/>
+    <line x1="72" y1="120" x2="77" y2="120"/>
+    <line x1="72" y1="124" x2="77" y2="124"/>
+    <line x1="72" y1="128" x2="77" y2="128"/>
+    <line x1="72" y1="132" x2="83" y2="132"/>
+    <line x1="72" y1="136" x2="77" y2="136"/>
+    <line x1="72" y1="140" x2="77" y2="140"/>
+    <line x1="72" y1="144" x2="77" y2="144"/>
+    <line x1="72" y1="148" x2="83" y2="148"/>
+    <line x1="72" y1="152" x2="77" y2="152"/>
+    <line x1="72" y1="156" x2="77" y2="156"/>
+    <line x1="72" y1="160" x2="77" y2="160"/>
+  </g>
+  <circle cx="84" cy="28" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path d="M88.5 25.2 L196 4 L204 14 L93 35 Z" fill="currentColor"/>
+  <line x1="44" y1="178" x2="208" y2="178" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="208" y1="106" x2="208" y2="178" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="166" y1="106" x2="208" y2="106" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <g clip-path="url(#nav-medallion)">
+    <rect x="116" y="108" width="70" height="70" fill="url(#nav-bricks)"/>
+  </g>
+  <circle cx="150" cy="142" r="33" fill="none" stroke="currentColor" stroke-width="2.4"/>
+</svg>
+    <span class="brand-text">
+      <span class="brand-name"><span>Brick</span><span class="brand-accent">Storey</span></span>
+      <span class="brand-tag"><span class="rule"></span>Architecture · Interiors<span class="rule"></span></span>
+    </span>
+  </a>
   <ul class="nav-links">
     <li><a href="#projects">Projects</a></li>
     <li><a href="#about">About</a></li>
@@ -419,7 +604,7 @@
 <!-- HERO -->
 <section class="hero" id="home">
   <div class="hero-left">
-    <p class="hero-eyebrow">Interior Designer &amp; Principal — Bhavana Studio</p>
+    <p class="hero-eyebrow">Architecture · Interiors — Brick Storey</p>
     <h1 class="hero-name">Spaces<br>that <em>Feel</em><br>Like<br>Home.</h1>
     <p class="hero-desc">Crafting interiors where every surface, texture, and light source works in harmony — turning spaces into deeply personal, liveable stories.</p>
     <a class="hero-cta" href="#projects">View Projects <span class="arrow">→</span></a>
@@ -475,138 +660,23 @@
 <section id="projects">
   <div class="section-header reveal">
     <h2 class="section-title">Selected<br><em>Interiors</em></h2>
-    <span class="section-counter">— 01 / 06</span>
+    <span class="section-counter">— 01 / 01</span>
   </div>
 
   <div class="projects-grid" id="projectsGrid">
 
-    <!-- Featured -->
-    <div class="project-card featured reveal" onclick="openModal(0)">
-      <div class="project-visual pv-1">
-        <svg width="400" height="280" viewBox="0 0 400 280" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
-          <!-- Living room perspective -->
-          <rect x="20" y="20" width="360" height="240" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
-          <line x1="80" y1="20" x2="80" y2="260" stroke="#faf7f2" stroke-width="0.4"/>
-          <line x1="320" y1="20" x2="320" y2="260" stroke="#faf7f2" stroke-width="0.4"/>
-          <line x1="20" y1="170" x2="380" y2="170" stroke="#faf7f2" stroke-width="0.4"/>
-          <rect x="130" y="180" width="140" height="50" fill="none" stroke="#faf7f2" stroke-width="1.2"/>
-          <rect x="160" y="235" width="80" height="15" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
-          <rect x="120" y="60" width="160" height="90" fill="none" stroke="#d4a97a" stroke-width="1"/>
-          <line x1="200" y1="60" x2="200" y2="150" stroke="#d4a97a" stroke-width="0.5"/>
-          <line x1="120" y1="105" x2="280" y2="105" stroke="#d4a97a" stroke-width="0.5"/>
-        </svg>
-      </div>
+    <div class="project-card featured has-photo reveal" onclick="openModal(0)">
+      <div class="project-visual" id="featuredSlideshow"></div>
       <div class="project-info">
         <p class="project-index">01 — Featured</p>
-        <h3 class="project-title">The Amber Residence</h3>
-        <p class="project-meta">Hyderabad, India · 2024 · 4,200 sq ft</p>
-        <p class="project-desc">A sprawling family home reimagined around warmth and intention — hand-trowelled plaster walls, custom joinery in aged brass, and layered textiles sourced from Rajasthani weavers. Winner of the Elle Décor India Award 2024.</p>
+        <h3 class="project-title">Om Shree galaxy<br>S-1302</h3>
+        <p class="project-meta">Om Shree Galaxy · Residential</p>
+        <p class="project-desc">A family that seeks calmness and peace and someone who likes to be close to nature. Curves have been used here to represent nature in tiny details.</p>
         <span class="project-tag">Residential</span>
       </div>
     </div>
 
-    <div class="project-card reveal" onclick="openModal(1)">
-      <div class="project-visual pv-2">
-        <svg width="280" height="210" viewBox="0 0 280 210" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
-          <rect x="20" y="20" width="240" height="170" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
-          <rect x="60" y="100" width="160" height="60" fill="none" stroke="#faf7f2" stroke-width="1.2"/>
-          <rect x="20" y="20" width="60" height="170" fill="none" stroke="#faf7f2" stroke-width="0.5"/>
-          <rect x="75" y="130" width="35" height="30" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
-          <rect x="170" y="130" width="35" height="30" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
-          <line x1="140" y1="20" x2="140" y2="100" stroke="#d4a97a" stroke-width="0.8"/>
-        </svg>
-      </div>
-      <div class="project-info">
-        <p class="project-index">02</p>
-        <h3 class="project-title">Verdant Café & Co-Work</h3>
-        <p class="project-meta">Bangalore, India · 2023 · 2,800 sq ft</p>
-        <p class="project-desc">A biophilic café and coworking hybrid built around a 14-foot living moss wall, terrazzo floors, and rattan pendant clusters that diffuse afternoon light into gold.</p>
-        <span class="project-tag">Commercial</span>
-      </div>
-    </div>
-
-    <div class="project-card reveal" onclick="openModal(2)">
-      <div class="project-visual pv-3">
-        <svg width="280" height="210" viewBox="0 0 280 210" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
-          <rect x="30" y="30" width="220" height="150" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
-          <line x1="30" y1="120" x2="250" y2="120" stroke="#faf7f2" stroke-width="0.4"/>
-          <rect x="60" y="130" width="60" height="50" fill="none" stroke="#faf7f2" stroke-width="1"/>
-          <rect x="160" y="130" width="60" height="50" fill="none" stroke="#faf7f2" stroke-width="1"/>
-          <rect x="80" y="40" width="120" height="60" fill="none" stroke="#d4a97a" stroke-width="1"/>
-          <line x1="140" y1="40" x2="140" y2="100" stroke="#d4a97a" stroke-width="0.5"/>
-        </svg>
-      </div>
-      <div class="project-info">
-        <p class="project-index">03</p>
-        <h3 class="project-title">Suite Indigo — Boutique Hotel</h3>
-        <p class="project-meta">Mumbai, India · 2023 · 18 Suites</p>
-        <p class="project-desc">A boutique hotel where each suite tells a different chapter of Indian craft — Kalamkari murals in one room, Bidriware inlay accents in the next. Consistently rated in Condé Nast Traveller's top 20.</p>
-        <span class="project-tag">Hospitality</span>
-      </div>
-    </div>
-
-    <div class="project-card reveal" onclick="openModal(3)">
-      <div class="project-visual pv-4">
-        <svg width="280" height="210" viewBox="0 0 280 210" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
-          <circle cx="140" cy="105" r="75" fill="none" stroke="#faf7f2" stroke-width="1"/>
-          <circle cx="140" cy="105" r="45" fill="none" stroke="#d4a97a" stroke-width="0.8"/>
-          <line x1="65" y1="105" x2="215" y2="105" stroke="#faf7f2" stroke-width="0.4"/>
-          <line x1="140" y1="30" x2="140" y2="180" stroke="#faf7f2" stroke-width="0.4"/>
-          <rect x="118" y="83" width="44" height="44" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
-        </svg>
-      </div>
-      <div class="project-info">
-        <p class="project-index">04</p>
-        <h3 class="project-title">The Still Room — Spa</h3>
-        <p class="project-meta">Hyderabad, India · 2022 · 3,000 sq ft</p>
-        <p class="project-desc">A wellness sanctuary designed around stillness — white marble, low candlelight, hand-thrown pottery, and a palette drawn from the interior of a Deccan cloud at dusk.</p>
-        <span class="project-tag">Wellness</span>
-      </div>
-    </div>
-
-    <div class="project-card reveal" onclick="openModal(4)">
-      <div class="project-visual pv-5">
-        <svg width="280" height="210" viewBox="0 0 280 210" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
-          <rect x="15" y="15" width="250" height="180" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
-          <rect x="15" y="15" width="120" height="90" fill="none" stroke="#faf7f2" stroke-width="0.5"/>
-          <rect x="135" y="15" width="130" height="90" fill="none" stroke="#faf7f2" stroke-width="0.5"/>
-          <rect x="60" y="130" width="160" height="50" fill="none" stroke="#faf7f2" stroke-width="1.2"/>
-          <line x1="140" y1="105" x2="140" y2="130" stroke="#d4a97a" stroke-width="0.8"/>
-        </svg>
-      </div>
-      <div class="project-info">
-        <p class="project-index">05</p>
-        <h3 class="project-title">Loft No. 7 — Penthouse</h3>
-        <p class="project-meta">Mumbai, India · 2021 · 5,500 sq ft</p>
-        <p class="project-desc">A double-height penthouse stripped to its bones — exposed concrete ceilings, polished microcement floors, and custom furniture in smoked oak and brushed bronze that let the city skyline do the rest.</p>
-        <span class="project-tag">Luxury Residential</span>
-      </div>
-    </div>
-
-    <div class="project-card reveal" onclick="openModal(5)">
-      <div class="project-visual pv-6">
-        <svg width="280" height="210" viewBox="0 0 280 210" class="arch-svg" xmlns="http://www.w3.org/2000/svg">
-          <rect x="30" y="20" width="220" height="170" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
-          <rect x="30" y="20" width="80" height="170" fill="none" stroke="#faf7f2" stroke-width="0.5"/>
-          <line x1="110" y1="20" x2="110" y2="190" stroke="#d4a97a" stroke-width="0.8"/>
-          <rect x="130" y="80" width="100" height="70" fill="none" stroke="#faf7f2" stroke-width="1.2"/>
-          <rect x="50" y="60" width="40" height="100" fill="none" stroke="#faf7f2" stroke-width="0.8"/>
-        </svg>
-      </div>
-      <div class="project-info">
-        <p class="project-index">06</p>
-        <h3 class="project-title">Hive — Creative Agency Office</h3>
-        <p class="project-meta">Bangalore, India · 2020 · 6,000 sq ft</p>
-        <p class="project-desc">A vibrant creative studio where each zone carries its own personality — a library nook in forest green velvet, a brainstorm room lined in writeable blackboard paint, and a kitchen in glazed indigo tile.</p>
-        <span class="project-tag">Workspace</span>
-      </div>
-    </div>
-
     <!-- Add project card -->
-    <div class="add-project-card" onclick="showAddProject()">
-      <div class="add-icon">+</div>
-      <p class="add-text">Add New Project</p>
-    </div>
 
   </div>
 </section>
@@ -616,7 +686,7 @@
   <div class="about-left reveal">
     <h2 class="about-title">Practice<br>&amp; <em>Philosophy</em></h2>
     <div class="about-body">
-      <p>Bhavana Studio is a Hyderabad-based interior design practice working across residential, hospitality, and commercial spaces. Every project begins with a single question: how should this space make you feel?</p>
+      <p>Brick Storey is a Hyderabad-based architecture and interior design practice working across residential, hospitality, and commercial spaces. Every project begins with a single question: how should this space make you feel?</p>
       <p>Deeply rooted in Indian craft traditions while fluent in contemporary spatial language, the studio brings together skilled artisans, material specialists, and light designers to create environments that are beautiful, liveable, and honest about where they come from.</p>
     </div>
     <div class="about-services">
@@ -628,12 +698,6 @@
     </div>
   </div>
   <div class="about-right reveal">
-    <p class="awards-title">Recognition</p>
-    <div class="award-item"><div class="award-year">2024</div><div class="award-name">Elle Décor India Award</div><div class="award-body">Residential Design of the Year — The Amber Residence</div></div>
-    <div class="award-item"><div class="award-year">2023</div><div class="award-name">Condé Nast India — Top Designer</div><div class="award-body">40 Under 40, Interior Design</div></div>
-    <div class="award-item"><div class="award-year">2022</div><div class="award-name">India Design ID Award</div><div class="award-body">Best Hospitality Interior — Suite Indigo</div></div>
-    <div class="award-item"><div class="award-year">2021</div><div class="award-name">Surface Design Award</div><div class="award-body">Best Use of Craft Material — Loft No. 7</div></div>
-    <div class="award-item"><div class="award-year">2020</div><div class="award-name">Dezeen Interiors Longlist</div><div class="award-body">Workplace Category — Hive Creative Office</div></div>
   </div>
 </section>
 
@@ -644,43 +708,107 @@
     <p class="contact-body">Whether you're building a home from scratch, reimagining a restaurant, or creating a workspace your team will love — let's talk about what your space could become.</p>
     <br><br>
     <p class="contact-body" style="color:rgba(250,247,242,0.3); font-size:11px; letter-spacing:0.1em;">
-      Bhavana Studio<br>
-      Jubilee Hills, Hyderabad 500033<br>
-      hello@bhavanastudio.in<br>
-      +91 98480 00000
+      Brick Storey<br>
+      Kompally, Hyderabad 500100<br>
+      hello@brickstorey.in<br>
+      +91 8179811567
     </p>
   </div>
-  <form class="contact-form" onsubmit="handleSubmit(event)">
-    <div class="form-group">
-      <label class="form-label">Your Name</label>
-      <input class="form-input" type="text" placeholder="Full name" required>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Email</label>
-      <input class="form-input" type="email" placeholder="your@email.com" required>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Space Type</label>
-      <input class="form-input" type="text" placeholder="Home, Restaurant, Office, Hotel...">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Tell Me About Your Space</label>
-      <textarea class="form-textarea" placeholder="Size, location, mood, inspiration..."></textarea>
-    </div>
-    <button class="form-submit" type="submit">Send Enquiry →</button>
-  </form>
+  <div class="contact-cta">
+    <span class="contact-cta-eyebrow">Talk to us</span>
+    <h3 class="contact-cta-title">Message us on <em>WhatsApp</em> — we usually reply within a few hours.</h3>
+    <p class="contact-cta-body">Share a few photos of your space, your inspiration, or just say hi. We'll take it from there.</p>
+    <a class="whatsapp-btn"
+       href="https://wa.me/918179811567?text=Hi%20Brick%20Storey%2C%20I%27d%20like%20to%20talk%20about%20a%20project."
+       target="_blank" rel="noopener"
+       aria-label="Chat with Brick Storey on WhatsApp">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+        <path d="M19.05 4.91A10 10 0 0 0 12.04 2C6.55 2 2.1 6.45 2.1 11.94c0 1.76.46 3.47 1.34 4.98L2 22l5.25-1.38a9.93 9.93 0 0 0 4.78 1.22h.01c5.49 0 9.94-4.45 9.94-9.94 0-2.65-1.03-5.15-2.93-7.99zm-7.01 15.27h-.01a8.26 8.26 0 0 1-4.21-1.15l-.3-.18-3.12.82.83-3.04-.2-.31a8.24 8.24 0 0 1-1.26-4.38c0-4.55 3.7-8.25 8.26-8.25 2.21 0 4.28.86 5.84 2.42a8.2 8.2 0 0 1 2.42 5.84c0 4.56-3.7 8.23-8.25 8.23zm4.52-6.16c-.25-.12-1.47-.72-1.7-.81-.23-.08-.39-.12-.56.12-.17.25-.65.81-.79.98-.15.17-.29.19-.54.06-.25-.12-1.05-.39-2-1.23-.74-.66-1.24-1.47-1.38-1.72-.15-.25-.02-.39.11-.51.11-.11.25-.29.37-.43.12-.15.17-.25.25-.41.08-.17.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.83-.2-.48-.4-.42-.56-.43h-.48c-.17 0-.43.06-.66.31-.23.25-.87.85-.87 2.07 0 1.22.89 2.4 1.01 2.57.12.17 1.74 2.65 4.21 3.72.59.25 1.05.4 1.41.52.59.19 1.13.16 1.55.1.47-.07 1.47-.6 1.67-1.18.21-.58.21-1.07.15-1.18-.06-.11-.22-.17-.46-.29z"/>
+      </svg>
+      <span>Chat on WhatsApp</span>
+      <span class="arrow">→</span>
+    </a>
+    <p class="contact-alt">
+      Or <a href="tel:+918179811567">call +91 81798 11567</a>
+      <span class="dot">·</span>
+      <a href="mailto:hello@brickstorey.in">hello@brickstorey.in</a>
+    </p>
+  </div>
 </section>
 
 <!-- FOOTER -->
 <footer>
-  <div class="footer-logo">Bhavana</div>
+  <div class="footer-logo">
+    <svg class="brand-mark" viewBox="0 0 240 220" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+  <defs>
+    <pattern id="foot-bricks" patternUnits="userSpaceOnUse" width="18" height="14">
+      <rect width="18" height="14" fill="#c46a3a"/>
+      <line x1="0" y1="0" x2="18" y2="0" stroke="#3d2418" stroke-width="0.8"/>
+      <line x1="0" y1="7" x2="18" y2="7" stroke="#3d2418" stroke-width="0.8"/>
+      <line x1="0" y1="0" x2="0" y2="7" stroke="#3d2418" stroke-width="0.8"/>
+      <line x1="9" y1="7" x2="9" y2="14" stroke="#3d2418" stroke-width="0.8"/>
+    </pattern>
+    <clipPath id="foot-medallion"><circle cx="150" cy="142" r="33"/></clipPath>
+  </defs>
+  <line x1="50" y1="28" x2="50" y2="178" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="50" y1="28" x2="72" y2="28" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="72" y1="28" x2="72" y2="166" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  <g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">
+    <line x1="72" y1="36" x2="83" y2="36"/>
+    <line x1="72" y1="40" x2="77" y2="40"/>
+    <line x1="72" y1="44" x2="77" y2="44"/>
+    <line x1="72" y1="48" x2="77" y2="48"/>
+    <line x1="72" y1="52" x2="83" y2="52"/>
+    <line x1="72" y1="56" x2="77" y2="56"/>
+    <line x1="72" y1="60" x2="77" y2="60"/>
+    <line x1="72" y1="64" x2="77" y2="64"/>
+    <line x1="72" y1="68" x2="83" y2="68"/>
+    <line x1="72" y1="72" x2="77" y2="72"/>
+    <line x1="72" y1="76" x2="77" y2="76"/>
+    <line x1="72" y1="80" x2="77" y2="80"/>
+    <line x1="72" y1="84" x2="83" y2="84"/>
+    <line x1="72" y1="88" x2="77" y2="88"/>
+    <line x1="72" y1="92" x2="77" y2="92"/>
+    <line x1="72" y1="96" x2="77" y2="96"/>
+    <line x1="72" y1="100" x2="83" y2="100"/>
+    <line x1="72" y1="104" x2="77" y2="104"/>
+    <line x1="72" y1="108" x2="77" y2="108"/>
+    <line x1="72" y1="112" x2="77" y2="112"/>
+    <line x1="72" y1="116" x2="83" y2="116"/>
+    <line x1="72" y1="120" x2="77" y2="120"/>
+    <line x1="72" y1="124" x2="77" y2="124"/>
+    <line x1="72" y1="128" x2="77" y2="128"/>
+    <line x1="72" y1="132" x2="83" y2="132"/>
+    <line x1="72" y1="136" x2="77" y2="136"/>
+    <line x1="72" y1="140" x2="77" y2="140"/>
+    <line x1="72" y1="144" x2="77" y2="144"/>
+    <line x1="72" y1="148" x2="83" y2="148"/>
+    <line x1="72" y1="152" x2="77" y2="152"/>
+    <line x1="72" y1="156" x2="77" y2="156"/>
+    <line x1="72" y1="160" x2="77" y2="160"/>
+  </g>
+  <circle cx="84" cy="28" r="4" fill="none" stroke="currentColor" stroke-width="2"/>
+  <path d="M88.5 25.2 L196 4 L204 14 L93 35 Z" fill="currentColor"/>
+  <line x1="44" y1="178" x2="208" y2="178" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="208" y1="106" x2="208" y2="178" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"/>
+  <line x1="166" y1="106" x2="208" y2="106" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
+  <g clip-path="url(#foot-medallion)">
+    <rect x="116" y="108" width="70" height="70" fill="url(#foot-bricks)"/>
+  </g>
+  <circle cx="150" cy="142" r="33" fill="none" stroke="currentColor" stroke-width="2.4"/>
+</svg>
+    <span class="brand-text">
+      <span class="brand-name"><span>Brick</span><span class="brand-accent">Storey</span></span>
+      <span class="brand-tag"><span class="rule"></span>Architecture · Interiors<span class="rule"></span></span>
+    </span>
+  </div>
   <div class="footer-links">
     <a href="#">Instagram</a>
     <a href="#">Pinterest</a>
     <a href="#">Press</a>
     <a href="#">Privacy</a>
   </div>
-  <div>© 2025 Bhavana Studio</div>
+  <div>© 2025 Brick Storey</div>
 </footer>
 
 <!-- PROJECT MODAL -->
@@ -729,42 +857,114 @@
 <script>
 const projects = [
   {
-    index:"01", cat:"Residential", title:"The Amber Residence",
-    location:"Hyderabad, India", year:"2024", size:"4,200 sq ft", client:"Private Family",
-    desc:"A sprawling family home reimagined around warmth and intention. Hand-trowelled plaster walls in a palette of saffron and chalk, custom joinery in aged brass, and layered textiles sourced from Rajasthani weavers create a home that is unmistakably Indian and timelessly modern. Winner of the Elle Décor India Award 2024.",
-    bg:"pv-1"
-  },
-  {
-    index:"02", cat:"Commercial", title:"Verdant Café & Co-Work",
-    location:"Bangalore, India", year:"2023", size:"2,800 sq ft", client:"Verdant Ventures",
-    desc:"A biophilic café and coworking hybrid built around a 14-foot living moss wall. Terrazzo floors in blush and sage, rattan pendant clusters that diffuse afternoon light into gold, and flexible furniture allow the space to shift from morning coffee ritual to focused afternoon work.",
-    bg:"pv-2"
-  },
-  {
-    index:"03", cat:"Hospitality", title:"Suite Indigo — Boutique Hotel",
-    location:"Mumbai, India", year:"2023", size:"18 Suites", client:"Suite Indigo Hotels",
-    desc:"A boutique hotel where each suite tells a different chapter of Indian craft heritage — Kalamkari murals in one room, Bidriware inlay accents in the next, hand-block printed linens throughout. The property has been consistently rated in Condé Nast Traveller India's top 20 boutique hotels.",
-    bg:"pv-3"
-  },
-  {
-    index:"04", cat:"Wellness", title:"The Still Room — Spa",
-    location:"Hyderabad, India", year:"2022", size:"3,000 sq ft", client:"The Still Room",
-    desc:"A wellness sanctuary designed around silence and slowness. White Makrana marble, low-temperature candlelight, hand-thrown pottery vessels, and a palette drawn from the interior of a Deccan cloud at dusk. Sound isolation was designed in tandem with the materiality to create a place of genuine rest.",
-    bg:"pv-4"
-  },
-  {
-    index:"05", cat:"Luxury Residential", title:"Loft No. 7 — Penthouse",
-    location:"Mumbai, India", year:"2021", size:"5,500 sq ft", client:"Private",
-    desc:"A double-height penthouse stripped to its bones and rebuilt with restraint. Exposed concrete ceilings, polished microcement floors, and bespoke furniture in smoked oak and brushed bronze let the 270-degree city skyline serve as the primary artwork. The brief was one word: quiet.",
-    bg:"pv-5"
-  },
-  {
-    index:"06", cat:"Workspace", title:"Hive — Creative Agency Office",
-    location:"Bangalore, India", year:"2020", size:"6,000 sq ft", client:"Hive Creative Co.",
-    desc:"A vibrant creative studio where each zone carries its own character and purpose. A library nook in forest green velvet, a brainstorm room lined in writeable blackboard paint, a kitchen in glazed indigo tile, and a rooftop terrace planted with native herbs. Longlisted for the Dezeen Interiors Award.",
-    bg:"pv-6"
+    index: "01",
+    cat: "Residential",
+    title: "Om Shree galaxy S-1302",
+    location: "Om Shree Galaxy",
+    year: "2025",
+    size: "S-1302",
+    client: "Private Family",
+    desc: "A family that seeks calmness and peace and someone who likes to be close to nature. Curves have been used here to represent nature in tiny details. It has been designed in subtle colours to match the taste of the client and perfectly altered to their own requirement.",
+    images: [
+      "images/om-shree-galaxy/01.png",
+      "images/om-shree-galaxy/02.png",
+      "images/om-shree-galaxy/03.png",
+      "images/om-shree-galaxy/04.png",
+      "images/om-shree-galaxy/05.png",
+      "images/om-shree-galaxy/06.png",
+      "images/om-shree-galaxy/07.png",
+      "images/om-shree-galaxy/08.png",
+      "images/om-shree-galaxy/09.png"
+    ]
   }
 ];
+
+let cardSlideshow = null;
+let modalSlideshow = null;
+const SLIDE_INTERVAL = 4000;
+
+function buildSlideshowHTML(images, title) {
+  const slides = images.map((src, i) =>
+    `<div class="slideshow-slide"><img src="${src}" alt="${title} — ${i + 1}"></div>`
+  ).join('');
+  return `
+    <div class="slideshow">
+      <div class="slideshow-track">${slides}</div>
+      <button type="button" class="slideshow-btn slideshow-prev" aria-label="Previous image">←</button>
+      <button type="button" class="slideshow-btn slideshow-next" aria-label="Next image">→</button>
+      <div class="slideshow-dots"></div>
+      <span class="slideshow-counter"></span>
+    </div>
+  `;
+}
+
+function initSlideshow(container, autoplay = true) {
+  const root = container.querySelector('.slideshow');
+  if (!root) return null;
+
+  const track = root.querySelector('.slideshow-track');
+  const slides = root.querySelectorAll('.slideshow-slide');
+  const dotsEl = root.querySelector('.slideshow-dots');
+  const counter = root.querySelector('.slideshow-counter');
+  let index = 0;
+  let timer = null;
+
+  dotsEl.innerHTML = Array.from(slides).map((_, i) =>
+    `<button type="button" class="slideshow-dot${i === 0 ? ' active' : ''}" data-i="${i}" aria-label="Go to image ${i + 1}"></button>`
+  ).join('');
+
+  function goTo(i) {
+    index = (i + slides.length) % slides.length;
+    track.style.transform = `translateX(-${index * 100}%)`;
+    root.querySelectorAll('.slideshow-dot').forEach((d, j) => d.classList.toggle('active', j === index));
+    if (counter) counter.textContent = `${index + 1} / ${slides.length}`;
+  }
+
+  function stopAutoplay() {
+    if (timer) { clearInterval(timer); timer = null; }
+  }
+
+  function startAutoplay() {
+    stopAutoplay();
+    if (!autoplay || slides.length < 2) return;
+    timer = setInterval(() => goTo(index + 1), SLIDE_INTERVAL);
+  }
+
+  function resetAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+
+  root.querySelector('.slideshow-prev').addEventListener('click', e => {
+    e.stopPropagation();
+    goTo(index - 1);
+    resetAutoplay();
+  });
+  root.querySelector('.slideshow-next').addEventListener('click', e => {
+    e.stopPropagation();
+    goTo(index + 1);
+    resetAutoplay();
+  });
+  dotsEl.querySelectorAll('.slideshow-dot').forEach(dot => {
+    dot.addEventListener('click', e => {
+      e.stopPropagation();
+      goTo(+dot.dataset.i);
+      resetAutoplay();
+    });
+  });
+
+  goTo(0);
+  startAutoplay();
+  return { goTo, stopAutoplay, startAutoplay };
+}
+
+function initFeaturedSlideshow() {
+  const el = document.getElementById('featuredSlideshow');
+  const proj = projects[0];
+  if (!el || !proj?.images?.length) return;
+  el.innerHTML = buildSlideshowHTML(proj.images, proj.title);
+  cardSlideshow = initSlideshow(el, true);
+}
 
 const pvColors = {
   pv1:["#1c1410","#2e2218"], pv2:["#101814","#182820"],
@@ -775,18 +975,36 @@ const pvColors = {
 function openModal(i) {
   const p = projects[i];
   const overlay = document.getElementById('modalOverlay');
+  const modal = document.getElementById('modal');
+  const visual = document.getElementById('modalVisual');
+
+  if (modalSlideshow) modalSlideshow.stopAutoplay();
+
   document.getElementById('modalCat').textContent = `${p.index} — ${p.cat}`;
   document.getElementById('modalTitle').textContent = p.title;
   document.getElementById('modalText').textContent = p.desc;
   document.getElementById('modalMeta').innerHTML = `
     <div class="modal-meta-item"><div class="modal-meta-key">Location</div><div class="modal-meta-val">${p.location}</div></div>
     <div class="modal-meta-item"><div class="modal-meta-key">Year</div><div class="modal-meta-val">${p.year}</div></div>
-    <div class="modal-meta-item"><div class="modal-meta-key">Size</div><div class="modal-meta-val">${p.size}</div></div>
+    <div class="modal-meta-item"><div class="modal-meta-key">Unit</div><div class="modal-meta-val">${p.size}</div></div>
     <div class="modal-meta-item"><div class="modal-meta-key">Client</div><div class="modal-meta-val">${p.client}</div></div>
   `;
-  const key = `pv${i+1}`;
-  const cols = pvColors[key] || ["#1c1714","#100e0b"];
-  document.getElementById('modalVisual').style.background = `linear-gradient(135deg, ${cols[0]} 0%, ${cols[1]} 100%)`;
+
+  if (p.images && p.images.length) {
+    modal.classList.add('has-gallery');
+    visual.style.background = '';
+    visual.innerHTML = buildSlideshowHTML(p.images, p.title);
+    modalSlideshow = initSlideshow(visual, true);
+    if (cardSlideshow) cardSlideshow.stopAutoplay();
+  } else {
+    modal.classList.remove('has-gallery');
+    const key = `pv${i + 1}`;
+    const cols = pvColors[key] || ["#1c1714", "#100e0b"];
+    visual.style.background = `linear-gradient(135deg, ${cols[0]} 0%, ${cols[1]} 100%)`;
+    visual.innerHTML = '';
+    modalSlideshow = null;
+  }
+
   overlay.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
@@ -797,6 +1015,11 @@ function closeModal(e) {
 function closeModalBtn() {
   document.getElementById('modalOverlay').classList.remove('open');
   document.body.style.overflow = '';
+  if (modalSlideshow) {
+    modalSlideshow.stopAutoplay();
+    modalSlideshow = null;
+  }
+  if (cardSlideshow) cardSlideshow.startAutoplay();
 }
 
 function showAddProject() {
@@ -858,15 +1081,6 @@ function addProject(e) {
   e.target.reset();
 }
 
-function handleSubmit(e) {
-  e.preventDefault();
-  const btn = e.target.querySelector('.form-submit');
-  btn.textContent = 'Sent ✓';
-  btn.style.background = 'var(--warm)';
-  btn.style.color = 'var(--ink)';
-  setTimeout(() => { btn.textContent = 'Send Enquiry →'; btn.style.background=''; btn.style.color=''; e.target.reset(); }, 3000);
-}
-
 window.addEventListener('scroll', () => {
   document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 80);
 });
@@ -883,6 +1097,7 @@ const obs = new IntersectionObserver(entries => {
     }
   });
 }, { threshold: 0.1 });
+initFeaturedSlideshow();
 reveals.forEach(r => obs.observe(r));
 </script>
 </body>
